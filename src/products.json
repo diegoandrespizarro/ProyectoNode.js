@@ -1,0 +1,12 @@
+[  {    "id": 1,    "title": "Producto 1",    "description": "Descripción del producto 1",    "price": 10.5,    "thumbnail": "https://via.placeholder.com/150",    "code": "P001",    "stock": 20  },  
+{    "id": 2,    "title": "Producto 2",    "description": "Descripción del producto 2",    "price": 15.2,    "thumbnail": "https://via.placeholder.com/150",    "code": "P002",    "stock": 15  },  
+{    "id": 3,    "title": "Producto 3",    "description": "Descripción del producto 3",    "price": 25.0,    "thumbnail": "https://via.placeholder.com/150",    "code": "P003",    "stock": 10  },  
+{    "id": 4,    "title": "Producto 4",    "description": "Descripción del producto 4",    "price": 5.5,    "thumbnail": "https://via.placeholder.com/150",    "code": "P004",    "stock": 30  },  
+{    "id": 5,    "title": "Producto 5",    "description": "Descripción del producto 5",    "price": 8.0,    "thumbnail": "https://via.placeholder.com/150",    "code": "P005",    "stock": 25  },  
+{    "id": 6,    "title": "Producto 6",    "description": "Descripción del producto 6",    "price": 12.5,    "thumbnail": "https://via.placeholder.com/150",    "code": "P006",    "stock": 18  },  
+{    "id": 7,    "title": "Producto 7",    "description": "Descripción del producto 7",    "price": 20.0,    "thumbnail": "https://via.placeholder.com/150",    "code": "P007",    "stock": 12  },  
+{    "id": 8,    "title": "Producto 8",    "description": "Descripción del producto 8",    "price": 7.5,    "thumbnail": "https://via.placeholder.com/150",    "code": "P008",    "stock": 22  },  
+{    "id": 9,    "title": "Producto 9",    "description": "Descripción del producto 9",    "price": 17.0,    "thumbnail": "https://via.placeholder.com/150",    "code": "P009",    "stock": 14  },  
+{    "id": 10,    "title": "Producto 10",    "description": "Descripción del producto 10",    "price": 11.0,    "thumbnail": "https://via.placeholder.com/150",    "code": "P010",    "stock": 17  }]
+
+
