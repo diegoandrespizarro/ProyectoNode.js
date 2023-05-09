@@ -1,0 +1,13 @@
+[
+  {
+    "id": "6649b982-ad71-4332-9d83-df1a7b3f8291",
+    "title": "Producto de prueba",
+    "description": "Este es un producto de prueba",
+    "code": "ABC123",
+    "price": 9.99,
+    "status": true,
+    "stock": 100,
+    "category": "prueba",
+    "thumbnails": []
+  }
+]

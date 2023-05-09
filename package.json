@@ -2,13 +2,16 @@
   "name": "proyectonode",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon src/app.js"
+    "start": "nodemon index.js"
   },
   "author": "DIEGO PIZARRO",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "handlebars": "^4.7.7",
+    "install": "^0.13.0",
+    "uuid4": "^2.0.3"
   }
 }
