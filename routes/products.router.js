@@ -1,11 +1,11 @@
 const express = require("express");
 const { Router } = express;
 const uuid4 = require("uuid4");
-
+const { socketIO } = require('../server');
 const fs = require('fs');
 const path = require('path');
 
-const productsFilePath = path.join(__dirname, 'products.json');
+const productsFilePath = path.join(__dirname, '..', 'DB', 'products.json');
 
 const router = new Router();
 
@@ -13,13 +13,13 @@ let products = [];
 
 // Carga los productos desde el archivo
 try {
-    const productsData = fs.readFileSync(productsFilePath, 'utf-8');
-    products = JSON.parse(productsData);
+  const productsData = fs.readFileSync(productsFilePath, 'utf-8');
+  products = JSON.parse(productsData);
 } catch (error) {
-    console.error(error);
+  console.error(error);
 }
 
-// Función para guardar los datos en el archivo products.json despues de que se hayan realizado cambios
+// Función para guardar los datos en el archivo products.json después de que se hayan realizado cambios
 function saveData() {
   fs.writeFile(productsFilePath, JSON.stringify(products, null, 2), (err) => {
     if (err) {
@@ -28,7 +28,7 @@ function saveData() {
   });
 }
 
-//ruta get para obtener obtener los productos
+// Ruta GET para obtener los productos
 router.get("/", (req, res) => {
   const { limit } = req.query;
   let data = products;
@@ -38,7 +38,7 @@ router.get("/", (req, res) => {
   res.json({ data });
 });
 
-//ruta get para obtener un solo producto por id
+// Ruta GET para obtener un solo producto por id
 router.get("/:pid", (req, res) => {
   const { pid } = req.params;
   const product = products.find((p) => p.id === pid);
@@ -49,7 +49,7 @@ router.get("/:pid", (req, res) => {
   }
 });
 
-//Post a la ruta raiz
+// Ruta POST para crear un nuevo producto
 router.post("/", (req, res) => {
   const {
     title,
@@ -78,10 +78,11 @@ router.post("/", (req, res) => {
   };
   products.push(product);
   saveData(); // Guarda los datos en el archivo
+  socketIO.emit('newProduct', product); // Emite un evento 'newProduct' a todos los clientes conectados
   res.json({ data: product, message: "Product created" });
 });
 
-//ruta put :pid que representa al id del producto y actualiza un producto existente en la base de datos
+// Ruta PUT para actualizar un producto existente
 router.put("/:pid", (req, res) => {
   const { pid } = req.params;
   const index = products.findIndex((p) => p.id === pid);
@@ -106,23 +107,26 @@ router.put("/:pid", (req, res) => {
     if (category) product.category = category;
     if (thumbnails) product.thumbnails = thumbnails;
     saveData(); // Guarda los datos en el archivo
+    socketIO.emit('updatedProduct', product); // Emite un evento 'updatedProduct' a todos los clientes conectados
     res.json({ data: product, message: "Product updated" });
   } else {
     res.status(404).json({ error: "Product not found" });
   }
 });
 
-//ruta Delete para eliminar un producto colocando el id
+// Ruta DELETE para eliminar un producto existente
 router.delete("/:pid", (req, res) => {
-    const { pid } = req.params;
-    const index = products.findIndex((p) => p.id === pid);
-    if (index !== -1) {
-      products.splice(index, 1);
-      fs.writeFileSync(productsFilePath, JSON.stringify(products, null, 2));
-      res.json({ message: "Product deleted" });
-    } else {
-      res.status(404).json({ error: "Product not found" });
-    }
-  });
-  
-  module.exports = router;
+  const { pid } = req.params;
+  const index = products.findIndex((p) => p.id === pid);
+  if (index !== -1) {
+    const product = products[index];
+    products.splice(index, 1);
+    saveData(); // Guarda los datos en el archivo
+    socketIO.emit('deletedProduct', product); // Emite un evento 'deletedProduct' a todos los clientes conectados
+    res.json({ data: product, message: "Product deleted" });
+  } else {
+    res.status(404).json({ error: "Product not found" });
+  }
+});
+
+module.exports = router;
