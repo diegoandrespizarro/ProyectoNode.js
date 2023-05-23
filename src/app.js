@@ -4,14 +4,15 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const handlebars = require('express-handlebars');
 const products = require('./DB/products.json');
+const path = require ("path");
 
 // Configurar el motor de plantillas Handlebars
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
-app.set("views",__dirname+"/views")
+app.set("views",path.join(__dirname+"/views"))
 
 // Configurar la carpeta de archivos estáticos
-app.use("/static", express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -5,6 +5,8 @@ const { socketIO } = require('../app');
 const fs = require('fs');
 const path = require('path');
 
+
+
 const productsFilePath = path.join(__dirname, '..', 'DB', 'products.json');
 
 const router = new Router();
@@ -129,3 +131,4 @@ router.delete("/:pid", (req, res) => {
   }
 });
 
+module.exports = router;
