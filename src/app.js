@@ -6,8 +6,8 @@ const handlebars = require('express-handlebars');
 const products = require('./DB/products.json');
 
 // Configurar el motor de plantillas Handlebars
-app.engine('handlebars', handlebars({ defaultLayout: null }));
-app.set("view engine","handlebars")
+app.engine('handlebars', handlebars.engine());
+app.set('view engine', 'handlebars');
 app.set("views",__dirname+"/views")
 
 // Configurar la carpeta de archivos estáticos
@@ -26,14 +26,12 @@ io.on('connection', (socket) => {
 });
 
 // Configurar el router de productos
-const routesProducts = require("./routes/products.router")(io);
+const routesProducts = require("./routes/product.routes")(io);
 app.use('/api/products', routesProducts);
 
 // Configurar otros routers
-const routesUsers = require("./routes/usuarios");
-const routesPets = require("./routes/carts.router");
-const viewsRouter = require('./routes/views');
-app.use("/api/users", routesUsers);
+const routesPets = require("./routes/carts.routes");
+const viewsRouter = require('./routes/views.router');
 app.use("/api/carts", routesPets);
 app.use('/', viewsRouter(products));
 
@@ -48,3 +46,4 @@ const port = 8080;
 http.listen(port, () => {
   console.log(`Servidor iniciado en http://localhost:${port}`);
 });
+
