@@ -21,9 +21,47 @@ app.get('/', (req, res) => {
   res.render('home', { products });
 });
 
+//mongoose
+const mongoose = require("mongoose")
+const Product = require("./product")
+const Cart = require("./cart")
+
+const connect = ()=>{
+  const URL = ""
+  return mongoose.connect(URL,{useUnifiedTopology:true,useNewUrlParser: true})
+  .then(async(connection)=>{
+    console.log("conexion a DB exitosa")
+
+    // Product.create({
+    //   name:"plancha",
+    //   price: 1500,
+    //   stock : 150
+    // })
+
+    // Cart.create({
+    //   date:"08/06/2023"
+    // })
+    Cart.find().populate("products.product")
+    .then(c => console.log(JSON.stringify(c, null, "/t")))
+    .catch(err => console.log(err))
+
+    //agregar productos al carrito
+    // let cart1 = await Cart.findOne({_id:""})
+    // console.log(cart1)
+    // cart1.products.push({product : ""})
+    // console.log(cart1)
+    // await Cart.updateOne({_id:""},cart1)
+  })
+  .catch(Err => console.log(err))
+}
+
+connect()
+
+
+
 // Iniciar el servidor WebSocket
 io.on('connection', (socket) => {
-  console.log('Nuevo cliente conectado');
+  socket.emit('Nuevo cliente conectado');
 });
 
 // Configurar el router de productos
@@ -33,6 +71,7 @@ app.use('/api/products', routesProducts);
 // Configurar otros routers
 const routesPets = require("./routes/carts.routes");
 const viewsRouter = require('./routes/views.router');
+const ManagerMongo = require('../dao/mongoDao/db');
 app.use("/api/carts", routesPets);
 app.use('/', viewsRouter(products));
 
@@ -41,6 +80,9 @@ app.use('/', viewsRouter(products));
 app.get('/realtimeproducts', (req, res) => {
   res.render('realTimeProducts', { products });
 });
+
+const dataBaseConnect = new ManagerMongo("")
+
 
 // Iniciar el servidor HTTP
 const port = 8080;
